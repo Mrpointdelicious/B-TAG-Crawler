@@ -1,3 +1,9 @@
+'''
+作者：Mr_Delicious
+新手上路，请多指教~
+'''
+
+
 import requests
 from bs4 import BeautifulSoup
 #from selenium import webdriver
@@ -6,6 +12,14 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib
+
+#浏览器信息
+headers = {
+    'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+}
+#代理 方便大规模爬取数据
+proxies = {
+    'https': '218.75.69.50:39590'}
 
 #写入文件
 def write_file(list,fp):
@@ -112,14 +126,15 @@ def tag_anly(data):
     # 使用pandas构造数据
     df = pd.DataFrame(data)
     result=df['tag_name'].value_counts()
+    return result
+
+def draw_pic(data):
     plt.rcParams['font.sans-serif'] = ['SimHei']  # 中文字体设置
     plt.rcParams['axes.unicode_minus'] = False
     plt.xlabel('TAG',fontsize=10)
     plt.ylabel('频数',fontsize=10)
-    result.plot.bar()
+    data.plot.bar()
     plt.show()
-    return result
-
 
 
 def main():
@@ -140,6 +155,7 @@ def main():
     write_file(tag_list,tag_fp)
     data = read_file(tag_fp)
     result = tag_anly(data)
+    draw_pic(result)
     data_wash(result)
     write_file(count_list,count_fp)
 
@@ -148,7 +164,8 @@ if __name__ == "__main__":
     result_list=[]
     tag_list=[]
     count_list = []
-    page = 30
+    #更改爬取页码
+    page = 6
     fp = 'guichu_ranking.json'
     tag_fp = 'tag.json'
     count_fp='tag_count.json'
