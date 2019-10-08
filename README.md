@@ -1,2 +1,2 @@
-# bilibili-
-用于爬取B站制定搜索结果的TAG统计
+# B-TAG-Crawler
+用于爬取B站鬼畜类视频搜索结果的TAG统计
